@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Vampire Club</string>
+    <string name="emoji_pause" translatable="false">⏸️</string>
 </resources>
