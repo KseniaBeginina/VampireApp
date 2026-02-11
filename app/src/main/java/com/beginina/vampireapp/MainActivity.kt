@@ -6,6 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
+import com.beginina.vampireapp.navigation.NavGraph
+import com.beginina.vampireapp.navigation.Routes
 import com.beginina.vampireapp.ui.theme.VampireAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -25,7 +27,8 @@ class MainActivity : ComponentActivity() {
         }
         setContent {
             VampireAppTheme {
-
+                val startDestination = Routes.LOGIN
+                NavGraph(startDestination = startDestination)
             }
         }
     }

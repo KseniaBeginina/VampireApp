@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    <script async src="https://telegram.org/js/telegram-widget.js?22"
+            data-telegram-login="VampireClub_bot"
+            data-size="large"
+            data-userpic="true"
+            data-request-access="write"
+            data-onauth="onTelegramAuth">
+    </script>
+
+    <script type="text/javascript">
+        function onTelegramAuth(user) {
+            TelegramAndroid.onAuth(JSON.stringify(user));
+        }
+    </script>
+</head>
+
+<body style="
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;">
+
+<h1 onclick="loadTelegramWidget()">Login Test (Click Me)</h1>
+
+</body>
+</html>
