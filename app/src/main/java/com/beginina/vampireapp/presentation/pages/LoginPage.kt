@@ -1,54 +1,25 @@
 package com.beginina.vampireapp.presentation.pages
 
-import android.webkit.JavascriptInterface
-import android.webkit.WebView
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.browser.customtabs.CustomTabColorSchemeParams
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.viewinterop.AndroidView
-import com.beginina.domain.entity.TelegramUser
-import com.google.gson.Gson
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.net.toUri
+import com.beginina.vampireapp.ui.theme.Black
 
 @Composable
 fun LoginPage(
     authViewModel: AuthViewModel
 ) {
-    AndroidView(
-        modifier = Modifier.fillMaxSize(),
-        factory = { context ->
-            WebView(context).apply {
-                settings.javaScriptEnabled = true
-                settings.domStorageEnabled = true
-                settings.allowFileAccess = true
+    val intent = CustomTabsIntent.Builder()
+        .setDefaultColorSchemeParams(CustomTabColorSchemeParams.Builder()
+            .setToolbarColor(Black.value.toInt())
+            .build())
+        .setUrlBarHidingEnabled(true)
+        .build()
 
-
-                addJavascriptInterface(
-                    object {
-                        @JavascriptInterface
-                        fun onAuth(json: String) {
-                            val user = Gson()
-                                .fromJson(json, TelegramUser::class.java)
-                            authViewModel.login(user)
-                        }
-                    },
-                    "TelegramAndroid"
-                )
-
-//                loadUrl("file:///android_asset/telegram_login.html")
-
-                val html = context.assets.open("telegram_login.html")
-                    .bufferedReader()
-                    .use { it.readText() }
-
-                loadDataWithBaseURL(
-                    "https://telegram.org",
-                    html,
-                    "text/html",
-                    "UTF-8",
-                    null
-                )
-
-            }
-        }
+    intent.launchUrl(
+        LocalContext.current,
+        "https://kseniabeginina.github.io/telegram_auth_vampire/".toUri()
     )
 }

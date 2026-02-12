@@ -17,7 +17,7 @@ class AuthRepositoryImpl(
             error("Telegram auth failed")
         }
 
-        val token = response.body()!!
+        val token = response.body()!!.string()
         firebaseAuthStorage.login(token)
     }
 }

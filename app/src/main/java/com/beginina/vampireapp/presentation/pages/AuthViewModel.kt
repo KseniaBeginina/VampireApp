@@ -17,9 +17,10 @@ class AuthViewModel @Inject constructor(
     fun login(user: TelegramUser){
         viewModelScope.launch {
             try {
+                Log.d("AuthViewModel", "Logging in user: $user")
                 loginUseCase(user)
             } catch (e: Exception) {
-                Log.e("Login", e.toString())
+                Log.e("AuthViewModel", "Login failed", e)
             }
         }
     }

@@ -20,7 +20,7 @@ class DataModule {
     @Singleton
     fun provideTelegramAuthApi(): TelegramAuthApi {
         return Retrofit.Builder()
-            .baseUrl("http://localhost:8080/")
+            .baseUrl("http://192.168.1.66:8080/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(TelegramAuthApi::class.java)

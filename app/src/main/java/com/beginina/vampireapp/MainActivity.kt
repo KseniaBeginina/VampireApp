@@ -1,20 +1,29 @@
 package com.beginina.vampireapp
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
+import com.beginina.domain.entity.TelegramUser
 import com.beginina.vampireapp.navigation.NavGraph
 import com.beginina.vampireapp.navigation.Routes
+import com.beginina.vampireapp.presentation.pages.AuthViewModel
 import com.beginina.vampireapp.ui.theme.VampireAppTheme
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.getValue
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    private val authViewModel by viewModels<AuthViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashscreen = installSplashScreen()
         var keepSplashScreen = true
@@ -25,10 +34,29 @@ class MainActivity : ComponentActivity() {
             delay(2000)
             keepSplashScreen = false
         }
+
+        handleDeepLink(intent)
+
         setContent {
             VampireAppTheme {
                 val startDestination = Routes.LOGIN
                 NavGraph(startDestination = startDestination)
+            }
+        }
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        handleDeepLink(intent)
+    }
+
+    private fun handleDeepLink(intent: Intent?) {
+        val userJson = intent?.data?.getQueryParameter("user")
+        userJson?.let {
+            val user = Gson().fromJson(it, TelegramUser::class.java)
+            Log.d("Login", "Telegram user: $user")
+            lifecycleScope.launch {
+                authViewModel.login(user)
             }
         }
     }
