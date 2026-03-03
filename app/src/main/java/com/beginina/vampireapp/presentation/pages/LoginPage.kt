@@ -3,14 +3,24 @@ package com.beginina.vampireapp.presentation.pages
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.net.toUri
+import androidx.navigation.NavController
+import com.beginina.vampireapp.navigation.Routes
 import com.beginina.vampireapp.ui.theme.Black
 
 @Composable
 fun LoginPage(
-    authViewModel: AuthViewModel
+    authViewModel: AuthViewModel,
+    navController: NavController
 ) {
+    val context = LocalContext.current
+    val isLoggedIn by authViewModel.isLoggedIn.collectAsState()
+
+    LaunchedEffect(Unit) {
     val intent = CustomTabsIntent.Builder()
         .setDefaultColorSchemeParams(CustomTabColorSchemeParams.Builder()
             .setToolbarColor(Black.value.toInt())
@@ -18,8 +28,18 @@ fun LoginPage(
         .setUrlBarHidingEnabled(true)
         .build()
 
-    intent.launchUrl(
-        LocalContext.current,
-        "https://kseniabeginina.github.io/telegram_auth_vampire/".toUri()
-    )
+        intent.launchUrl(
+            context,
+            "https://kseniabeginina.github.io/telegram_auth_vampire/".toUri()
+        )
+    }
+
+    LaunchedEffect(isLoggedIn) {
+        if (isLoggedIn){
+            navController.navigate(Routes.USER){
+                popUpTo(Routes.LOGIN) { inclusive = true }
+            }
+        }
+    }
+
 }

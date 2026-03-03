@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.beginina.vampireapp.presentation.pages.AuthViewModel
 import com.beginina.vampireapp.presentation.pages.LoginPage
+import com.beginina.vampireapp.presentation.pages.UserPage
 
 @Composable
 fun NavGraph(startDestination: String){
@@ -19,7 +20,12 @@ fun NavGraph(startDestination: String){
         composable(Routes.LOGIN){
             val authViewModel: AuthViewModel = hiltViewModel()
             LoginPage(
-                authViewModel = authViewModel)
+                authViewModel = authViewModel,
+                navController = navController
+            )
+        }
+        composable(Routes.USER){
+            UserPage()
         }
     }
 }

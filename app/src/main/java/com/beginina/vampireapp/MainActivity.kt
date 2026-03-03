@@ -11,18 +11,17 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import com.beginina.domain.entity.TelegramUser
 import com.beginina.vampireapp.navigation.NavGraph
-import com.beginina.vampireapp.navigation.Routes
 import com.beginina.vampireapp.presentation.pages.AuthViewModel
 import com.beginina.vampireapp.ui.theme.VampireAppTheme
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlin.getValue
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val authViewModel by viewModels<AuthViewModel>()
+    private val mainViewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashscreen = installSplashScreen()
@@ -39,7 +38,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             VampireAppTheme {
-                val startDestination = Routes.LOGIN
+                val startDestination = mainViewModel.startDestination
                 NavGraph(startDestination = startDestination)
             }
         }
@@ -47,6 +46,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
+        setIntent(intent)
         handleDeepLink(intent)
     }
 
