@@ -19,3 +19,7 @@ val LightGray = Color(0xFFA0A0A0)
 val Red = Color (0xFFD32F2F)
 val LightRed= Color(0xFFFF4C4C)
 val Green = Color(0xFF67FF4C)
+
+//Transparent colors
+val RedTr50 = Color(0x80D32F2F)
+val RedTr10 = Color(0x1AD32F2F)
