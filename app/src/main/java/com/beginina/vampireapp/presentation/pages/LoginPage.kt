@@ -1,5 +1,6 @@
 package com.beginina.vampireapp.presentation.pages
 
+import android.util.Log
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.runtime.Composable
@@ -35,11 +36,12 @@ fun LoginPage(
     }
 
     LaunchedEffect(isLoggedIn) {
+        Log.d("LoginPage", "LaunchedEffect triggered, isLoggedIn=$isLoggedIn")
         if (isLoggedIn){
             navController.navigate(Routes.USER){
                 popUpTo(Routes.LOGIN) { inclusive = true }
             }
+            Log.d("LoginPage", "Navigated to USER page")
         }
     }
-
 }
